@@ -1,29 +1,29 @@
 :root {
-  /* Surfaces */
-  --ink: #0a0d12;
-  --surface: #12161d;
-  --surface-raised: #1b212b;
-  --surface-hover: #212836;
-  --line: #242b36;
-  --line-soft: #1a2029;
+  /* Surfaces — near-black to charcoal */
+  --ink: #08090a;
+  --surface: #111214;
+  --surface-raised: #1a1c1f;
+  --surface-hover: #212327;
+  --line: #2a2c30;
+  --line-soft: #1c1e21;
 
-  /* Text */
-  --ice: #eef3f8;
-  --steel: #8b96a6;
-  --steel-dim: #5c6675;
+  /* Text — white to steel grey */
+  --ice: #f5f6f7;
+  --steel: #9a9ea4;
+  --steel-dim: #64686e;
 
-  /* Accents */
-  --accent: #2fb4ff;
-  --accent-dim: rgba(47, 180, 255, 0.14);
-  --gold: #f5a623;
-  --gold-dim: rgba(245, 166, 35, 0.14);
-  --live: #ff4747;
-  --win: #34d399;
-  --loss: #f87171;
-  --otl: #f5a623;
+  /* Accents — monochrome. White stands in for "accent", grey for secondary. */
+  --accent: #f5f6f7;
+  --accent-dim: rgba(245, 246, 247, 0.1);
+  --gold: #e7e9eb;
+  --gold-dim: rgba(231, 233, 235, 0.1);
+  --live: #e8384f;
+  --win: #f5f6f7;
+  --loss: #64686e;
+  --otl: #9a9ea4;
 
-  --shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.55);
-  --shadow-sm: 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+  --shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.7);
+  --shadow-sm: 0 4px 12px -4px rgba(0, 0, 0, 0.55);
 
   --display: 'Oswald', 'Arial Narrow', sans-serif;
   --sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -57,7 +57,7 @@ body {
   flex-direction: column;
   position: relative;
   background:
-    radial-gradient(ellipse 900px 500px at 50% -10%, rgba(47, 180, 255, 0.08), transparent 60%),
+    radial-gradient(ellipse 900px 500px at 50% -10%, rgba(245, 246, 247, 0.06), transparent 60%),
     var(--ink);
   border-inline: 1px solid var(--line-soft);
 }

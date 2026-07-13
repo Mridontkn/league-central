@@ -30,9 +30,9 @@ export const sampleNews = [
 
 export function transformNews(rows) {
   return rows
-    .filter((r) => r.id?.trim())
-    .map((r) => ({
-      id: r.id.trim(),
+    .filter((r) => r.title?.trim())
+    .map((r, index) => ({
+      id: r.id?.trim() || `news-${index}`,
       date: (r.date || "").trim(),
       tag: (r.tag || "News").trim(),
       title: (r.title || "").trim(),

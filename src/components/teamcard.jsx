@@ -1,25 +1,20 @@
 export default function TeamCard({ team }) {
-  const points = Number(team.W) * 2 + Number(team.otl);
+  const gp = team.w + team.l + team.otl;
+  const pts = team.w * 2 + team.otl;
 
   return (
-    <div
-      style={{
-        background: "#1B1D24",
-        color: "white",
-        borderLeft: `6px solid ${team.color}`,
-        borderRadius: "16px",
-        padding: "16px",
-        marginBottom: "12px",
-      }}
-    >
-      <h2>{team.city}</h2>
-      <h3>{team.name}</h3>
+    <div className="team-card" style={{ "--team-color": team.color }}>
+      <div className="crest">{team.short}</div>
 
-      <p>
-        {team.W}-{team.L}-{team.otl}
-      </p>
+      <div className="info">
+        <span className="name">{team.city} {team.name}</span>
+        <span className="meta">{gp} GP · {team.w}-{team.l}-{team.otl}</span>
+      </div>
 
-      <strong>{points} pts</strong>
+      <div className="record">
+        {team.w}-{team.l}-{team.otl}
+        <span className="pts">{pts} PTS</span>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,9 @@
 import Papa from "papaparse";
+import { sampleTeams, transformTeams } from "../data/teams";
+import { sampleGames, transformGames } from "../data/games";
+import { sampleNews, transformNews } from "../data/news";
 
+// All three tabs live in the same published HCA spreadsheet, one gid per tab.
 const SHEETS = {
   teams:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAB8s0NiI8vGmRTdOw5vYP0avQF1QjTnsuZet1j86_8kRXZWB-dmDr23BdGPdFc3jkZBfGqTIYXknx/pub?gid=0&single=true&output=csv",
@@ -13,8 +17,9 @@ const SHEETS = {
 
 async function fetchSheet(url) {
   const response = await fetch(url);
-  const csv = await response.text();
+  if (!response.ok) throw new Error(`Sheet fetch failed: ${response.status}`);
 
+  const csv = await response.text();
   const result = Papa.parse(csv, {
     header: true,
     skipEmptyLines: true,
@@ -23,14 +28,35 @@ async function fetchSheet(url) {
   return result.data;
 }
 
-export function getTeams() {
-  return fetchSheet(SHEETS.teams);
+export async function getTeams() {
+  try {
+    const rows = await fetchSheet(SHEETS.teams);
+    const teams = transformTeams(rows);
+    return teams.length ? teams : sampleTeams;
+  } catch (err) {
+    console.warn("Falling back to sample teams:", err);
+    return sampleTeams;
+  }
 }
 
-export function getGames() {
-  return fetchSheet(SHEETS.games);
+export async function getGames() {
+  try {
+    const rows = await fetchSheet(SHEETS.games);
+    const games = transformGames(rows);
+    return games.length ? games : sampleGames;
+  } catch (err) {
+    console.warn("Falling back to sample games:", err);
+    return sampleGames;
+  }
 }
 
-export function getNews() {
-  return fetchSheet(SHEETS.news);
+export async function getNews() {
+  try {
+    const rows = await fetchSheet(SHEETS.news);
+    const news = transformNews(rows);
+    return news.length ? news : sampleNews;
+  } catch (err) {
+    console.warn("Falling back to sample news:", err);
+    return sampleNews;
+  }
 }

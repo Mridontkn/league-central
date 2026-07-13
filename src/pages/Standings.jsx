@@ -1,39 +1,67 @@
 import { useEffect, useState } from "react";
 import { getTeams } from "../lib/googleSheet";
+import { computeStandings, PLAYOFF_SPOTS } from "../data/standings";
 
 export default function Standings() {
   const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
-      const data = await getTeams();
-
-      data.sort((a, b) => {
-        const ptsA = Number(a.W) * 2 + Number(a.otl);
-        const ptsB = Number(b.W) * 2 + Number(b.otl);
-
-        return ptsB - ptsA;
-      });
-
-      setTeams(data);
+      setTeams(await getTeams());
+      setLoading(false);
     }
 
     load();
   }, []);
 
+  const standings = computeStandings(teams);
+
   return (
     <div className="page">
-      <h1>Standings</h1>
+      <div className="page-head">
+        <h1>Standings</h1>
+        <p>Top {PLAYOFF_SPOTS} clubs make the playoffs</p>
+      </div>
 
-      {teams.map((team, index) => {
-        const pts = Number(team.W) * 2 + Number(team.otl);
+      {loading && <div className="empty-state">Loading standings…</div>}
 
-        return (
-          <div key={team.short}>
-            {index + 1}. {team.city} {team.name} — {pts} pts
+      {!loading && standings.length > 0 && (
+        <div className="standings-table">
+          <div className="standings-row head">
+            <span className="rank">#</span>
+            <span className="team">Team</span>
+            <span className="cell">W</span>
+            <span className="cell">L</span>
+            <span className="cell">OTL</span>
+            <span className="cell">GP</span>
+            <span className="cell">PTS</span>
           </div>
-        );
-      })}
+
+          {standings.map((team, index) => (
+            <div
+              className={`standings-row${index === PLAYOFF_SPOTS - 1 ? " standings-cutoff" : ""}`}
+              key={team.short}
+              style={{ "--team-color": team.color }}
+            >
+              <span className="rank">{index + 1}</span>
+              <div className="team">
+                <span className="crest">{team.short}</span>
+                <span className="label">{team.city} {team.name}</span>
+              </div>
+              <span className="cell">{team.w}</span>
+              <span className="cell">{team.l}</span>
+              <span className="cell">{team.otl}</span>
+              <span className="cell">{team.gp}</span>
+              <span className="cell pts">{team.pts}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {!loading && standings.length === 0 && (
+        <div className="empty-state">No teams yet.</div>
+      )}
     </div>
   );
 }
