@@ -17,7 +17,7 @@ function Home() {
       </p>
 
       <p className="footer">
-        Made by Emaad
+        Made by Emaad z
       </p>
 
     </main>
