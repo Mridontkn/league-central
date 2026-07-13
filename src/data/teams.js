@@ -1,9 +1,4 @@
-// ---------------------------------------------------------------------------
-// TEAMS
-// `sampleTeams` is the fallback shown until (or unless) a Google Sheet is
-// wired up in sheetConfig.js. `transformTeams` converts raw CSV rows from
-// the sheet into the same shape.
-// ---------------------------------------------------------------------------
+
 
 export const sampleTeams = [
   { short: "THR", name: "Thunderhawks", city: "Northgate", color: "#2fb4ff", w: 11, l: 3, otl: 1 },

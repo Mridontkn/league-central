@@ -1,29 +1,25 @@
 import { useEffect, useState } from "react";
 import { getTeams } from "../lib/googleSheet";
-import TeamCard from "../components/teamcard.jsx";
+import TeamCard from "../components/teamcard";
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
 
   useEffect(() => {
-    async function loadTeams() {
-      const data = await getTeams();
-
-      console.log(data);
-
-      setTeams(data);
+    async function load() {
+      setTeams(await getTeams());
     }
 
-    loadTeams();
+    load();
   }, []);
 
-return (
-  <div style={{ color: "white", padding: 20 }}>
-    <h1>Teams Debug</h1>
+  return (
+    <div className="page">
+      <h1>Teams</h1>
 
-    <p>Number of teams: {teams.length}</p>
-
-    <pre>{JSON.stringify(teams, null, 2)}</pre>
-  </div>
-);
+      {teams.map((team) => (
+        <TeamCard key={team.short} team={team} />
+      ))}
+    </div>
+  );
 }

@@ -1,45 +1,32 @@
-import Scorebug from "../components/Scorebug";
-import { useLeague } from "../context/LeagueDataContext.jsx";
-
-function groupByDate(list) {
-  return list.reduce((groups, game) => {
-    (groups[game.date] ||= []).push(game);
-    return groups;
-  }, {});
-}
+import { useEffect, useState } from "react";
+import { getGames } from "../lib/googleSheet";
 
 export default function Games() {
-  const { teams, games } = useLeague();
-  const grouped = groupByDate(games);
-  const dates = Object.keys(grouped).sort();
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      setGames(await getGames());
+    }
+
+    load();
+  }, []);
 
   return (
     <div className="page">
-      <div className="page-head">
-        <span className="eyebrow">Schedule &amp; Results</span>
-        <h1>Games</h1>
-      </div>
+      <h1>Games</h1>
 
-      {dates.length === 0 && (
-        <div className="empty-state">No games scheduled yet.</div>
-      )}
+      {games.map((game) => (
+        <div key={game.id}>
+          <h3>
+            {game.away} @ {game.home}
+          </h3>
 
-      {dates.map((date) => (
-        <div key={date}>
-          <div className="section-head">
-            <h2>
-              {new Date(date + "T00:00:00").toLocaleDateString(undefined, {
-                weekday: "long",
-                month: "short",
-                day: "numeric",
-              })}
-            </h2>
-          </div>
-          <div className="page" style={{ gap: 10 }}>
-            {grouped[date].map((game) => (
-              <Scorebug key={game.id} game={game} teams={teams} />
-            ))}
-          </div>
+          <p>
+            {game.awayScore} - {game.homeScore}
+          </p>
+
+          <p>{game.status}</p>
         </div>
       ))}
     </div>

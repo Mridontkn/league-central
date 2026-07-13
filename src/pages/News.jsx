@@ -1,27 +1,32 @@
-import NewsCard from "../components/newscard";
-import { useLeague } from "../context/LeagueDataContext.jsx";
+import { useEffect, useState } from "react";
+import { getNews } from "../lib/googleSheet";
 
-function News() {
-  const { news } = useLeague();
+export default function News() {
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      setNews(await getNews());
+    }
+
+    load();
+  }, []);
 
   return (
     <div className="page">
-      <div className="page-head">
-        <span className="eyebrow">HCA Wire</span>
-        <h1>News</h1>
-      </div>
+      <h1>News</h1>
 
-      {news.length === 0 ? (
-        <div className="empty-state">No stories yet.</div>
-      ) : (
-        <div className="page" style={{ gap: 12 }}>
-          {news.map((item) => (
-            <NewsCard key={item.id} item={item} />
-          ))}
+      {news.map((item) => (
+        <div key={item.id}>
+          <h2>{item.title}</h2>
+
+          <p>{item.excerpt}</p>
+
+          <small>{item.date}</small>
+
+          <hr />
         </div>
-      )}
+      ))}
     </div>
   );
 }
-
-export default News;
