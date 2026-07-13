@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTeams } from "../lib/googleSheet";
-import TeamCard from "../components/TeamCard";
+import TeamCard from "../components/teamcard.jsx";
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
