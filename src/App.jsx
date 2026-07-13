@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./layouts/MainLayout.jsx";
 
-import Home from "./pages/Home";
-import News from "./pages/News";
-import Games from "./pages/Games";
-import Standings from "./pages/Standings";
-import Teams from "./pages/Teams";
+import Home from "./pages/Home.jsx";
+import News from "./pages/News.jsx";
+import Games from "./pages/Games.jsx";
+import Standings from "./pages/Standings.jsx";
+import Teams from "./pages/Teams.jsx";
 
 function App() {
   return (
