@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
-import { LeagueDataProvider } from "./context/LeagueDataContext.jsx";
 import MainLayout from "./layouts/MainLayout.jsx";
 
 import Home from "./pages/Home.jsx";
@@ -12,7 +11,7 @@ import Teams from "./pages/Teams.jsx";
 
 function App() {
   return (
-    <LeagueDataProvider>
+
       <BrowserRouter>
         <MainLayout>
           <Routes>
@@ -24,7 +23,7 @@ function App() {
           </Routes>
         </MainLayout>
       </BrowserRouter>
-    </LeagueDataProvider>
+
   );
 }
 
