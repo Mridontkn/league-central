@@ -1,22 +1,29 @@
-import TeamCard from "../components/teamcard";
-import { useLeague } from "../context/LeagueDataContext.jsx";
+import { useEffect, useState } from "react";
+import { getTeams } from "../lib/googleSheet";
+import TeamCard from "../components/TeamCard";
 
 export default function Teams() {
-  const { teams } = useLeague();
+  const [teams, setTeams] = useState([]);
 
-  return (
-    <div className="page">
-      <div className="page-head">
-        <span className="eyebrow">The League</span>
-        <h1>Teams</h1>
-        <p>{teams.length} clubs competing this season.</p>
-      </div>
+  useEffect(() => {
+    async function loadTeams() {
+      const data = await getTeams();
 
-      <div className="page" style={{ gap: 12 }}>
-        {teams.map((team) => (
-          <TeamCard key={team.short} team={team} />
-        ))}
-      </div>
-    </div>
-  );
+      console.log(data);
+
+      setTeams(data);
+    }
+
+    loadTeams();
+  }, []);
+
+return (
+  <div style={{ color: "white", padding: 20 }}>
+    <h1>Teams Debug</h1>
+
+    <p>Number of teams: {teams.length}</p>
+
+    <pre>{JSON.stringify(teams, null, 2)}</pre>
+  </div>
+);
 }
