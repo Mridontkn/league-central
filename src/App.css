@@ -494,6 +494,14 @@
   text-overflow: ellipsis;
 }
 
+.standings-row .team .sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--steel-dim);
+  display: block;
+}
+
 .standings-row .cell {
   font-family: var(--mono);
   font-size: 12.5px;

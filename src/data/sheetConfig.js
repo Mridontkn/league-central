@@ -19,6 +19,12 @@
 //
 //      News tab:  id | date | tag | title | excerpt
 //
+//      Stats tab:  id | name | team | gp | g | a | sv
+//        - team    team short code, links the player to their club
+//        - pts (points) is derived automatically as g + a, not a column
+//        - sv      save percentage as a decimal, e.g. 0.918 (leave blank
+//                  for skaters — it's mainly meaningful for goalies)
+//
 //   2. For EACH tab: File > Share > Publish to web > pick that specific
 //      sheet (not "Entire Document") > format CSV > Publish.
 //   3. Paste each resulting link below. Leave any URL as "" to fall back
@@ -28,5 +34,6 @@
 export const TEAMS_CSV_URL = "";
 export const GAMES_CSV_URL = "";
 export const NEWS_CSV_URL = "";
+export const STATS_CSV_URL = "";
 
 export const REFRESH_MS = 60_000; // how often the live site re-checks the sheet

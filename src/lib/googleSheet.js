@@ -2,8 +2,9 @@ import Papa from "papaparse";
 import { sampleTeams, transformTeams } from "../data/teams";
 import { sampleGames, transformGames } from "../data/games";
 import { sampleNews, transformNews } from "../data/news";
+import { sampleStats, transformStats } from "../data/stats";
 
-// All three tabs live in the same published HCA spreadsheet, one gid per tab.
+// All tabs live in the same published HCA spreadsheet, one gid per tab.
 const SHEETS = {
   teams:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAB8s0NiI8vGmRTdOw5vYP0avQF1QjTnsuZet1j86_8kRXZWB-dmDr23BdGPdFc3jkZBfGqTIYXknx/pub?gid=0&single=true&output=csv",
@@ -13,6 +14,9 @@ const SHEETS = {
 
   news:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAB8s0NiI8vGmRTdOw5vYP0avQF1QjTnsuZet1j86_8kRXZWB-dmDr23BdGPdFc3jkZBfGqTIYXknx/pub?gid=535605236&single=true&output=csv",
+
+  stats:
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAB8s0NiI8vGmRTdOw5vYP0avQF1QjTnsuZet1j86_8kRXZWB-dmDr23BdGPdFc3jkZBfGqTIYXknx/pub?gid=1368783779&single=true&output=csv",
 };
 
 async function fetchSheet(url) {
@@ -58,5 +62,16 @@ export async function getNews() {
   } catch (err) {
     console.warn("Falling back to sample news:", err);
     return sampleNews;
+  }
+}
+
+export async function getStats() {
+  try {
+    const rows = await fetchSheet(SHEETS.stats);
+    const stats = transformStats(rows);
+    return stats.length ? stats : sampleStats;
+  } catch (err) {
+    console.warn("Falling back to sample stats:", err);
+    return sampleStats;
   }
 }

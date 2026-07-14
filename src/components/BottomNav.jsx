@@ -5,6 +5,7 @@ import {
   FaNewspaper,
   FaHockeyPuck,
   FaChartSimple,
+  FaChartLine,
   FaPeopleGroup,
 } from "react-icons/fa6";
 
@@ -30,6 +31,11 @@ export default function BottomNav() {
       <NavLink to="/standings">
         <FaChartSimple />
         <span>Standings</span>
+      </NavLink>
+
+      <NavLink to="/stats">
+        <FaChartLine />
+        <span>Stats</span>
       </NavLink>
 
       <NavLink to="/teams">

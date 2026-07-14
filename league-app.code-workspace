@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "league-app",
+			"path": "."
+		},
+		{
+			"name": "public",
+			"path": "../../../../Downloads/league-central-sheets/league-central/public"
+		},
+		{
+			"name": "src",
+			"path": "../../../../Downloads/league-central-sheets/league-central/src"
+		}
+	],
+	"settings": {}
+}

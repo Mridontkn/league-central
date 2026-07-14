@@ -8,6 +8,7 @@ import News from "./pages/News.jsx";
 import Games from "./pages/Games.jsx";
 import Standings from "./pages/Standings.jsx";
 import Teams from "./pages/Teams.jsx";
+import Stats from "./pages/Stats.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/news" element={<News />} />
             <Route path="/games" element={<Games />} />
             <Route path="/standings" element={<Standings />} />
+            <Route path="/stats" element={<Stats />} />
             <Route path="/teams" element={<Teams />} />
           </Routes>
         </MainLayout>

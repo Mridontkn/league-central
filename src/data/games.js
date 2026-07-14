@@ -21,18 +21,19 @@ function toNum(v) {
 
 export function transformGames(rows) {
   return rows
-    .filter((r) => r.date?.trim())
-    .map((r, index) => ({
-      id: r.id?.trim() || `game-${index}`,
+    .filter((r) => r.id?.trim())
+    .map((r) => ({
+      id: r.id.trim(),
       date: (r.date || "").trim(),
       home: (r.home || "").trim().toUpperCase(),
       away: (r.away || "").trim().toUpperCase(),
       homeScore: toNum(r.homeScore),
       awayScore: toNum(r.awayScore),
       status: (r.status || "upcoming").trim().toLowerCase(),
-      time: r.time?.trim(),
+      time: r.time ? r.time.trim() : undefined,
     }));
 }
+
 export function nextGame(games) {
   return games.find((g) => g.status === "upcoming");
 }
