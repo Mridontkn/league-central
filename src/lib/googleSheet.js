@@ -4,7 +4,7 @@ import { sampleGames, transformGames } from "../data/games";
 import { sampleNews, transformNews } from "../data/news";
 import { sampleStats, transformStats } from "../data/stats";
 
-// All tabs live in the same published HCA spreadsheet, one gid per tab.
+// All tabs live in the same published HCA spreadsheet.
 const SHEETS = {
   teams:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAB8s0NiI8vGmRTdOw5vYP0avQF1QjTnsuZet1j86_8kRXZWB-dmDr23BdGPdFc3jkZBfGqTIYXknx/pub?gid=0&single=true&output=csv",
@@ -17,13 +17,20 @@ const SHEETS = {
 
   stats:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAB8s0NiI8vGmRTdOw5vYP0avQF1QjTnsuZet1j86_8kRXZWB-dmDr23BdGPdFc3jkZBfGqTIYXknx/pub?gid=1368783779&single=true&output=csv",
+
+  standings:
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAB8s0NiI8vGmRTdOw5vYP0avQF1QjTnsuZet1j86_8kRXZWB-dmDr23BdGPdFc3jkZBfGqTIYXknx/pub?gid=1158642239&single=true&output=csv",
 };
 
 async function fetchSheet(url) {
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`Sheet fetch failed: ${response.status}`);
+
+  if (!response.ok) {
+    throw new Error(`Sheet fetch failed: ${response.status}`);
+  }
 
   const csv = await response.text();
+
   const result = Papa.parse(csv, {
     header: true,
     skipEmptyLines: true,
@@ -68,18 +75,33 @@ export async function getNews() {
 export async function getStats() {
   try {
     const rows = await fetchSheet(SHEETS.stats);
-
-    console.log("RAW STATS ROWS:", rows);
-
-    console.log(rows[0]);
-
     const stats = transformStats(rows);
-
-    console.log("TRANSFORMED STATS:", stats);
-
     return stats.length ? stats : sampleStats;
   } catch (err) {
     console.warn("Falling back to sample stats:", err);
     return sampleStats;
+  }
+}
+
+export async function getStandings() {
+  try {
+    const rows = await fetchSheet(SHEETS.standings);
+
+    return rows.map((row) => ({
+      rank: Number(row.Rank),
+      team: row.Team,
+      conference: row.Conference,
+      gp: Number(row.GP),
+      w: Number(row.W),
+      l: Number(row.L),
+      otl: Number(row.OTL),
+      pts: Number(row.PTS),
+      gf: Number(row.GF),
+      ga: Number(row.GA),
+      diff: Number(row.DIFF),
+    }));
+  } catch (err) {
+    console.warn("Failed to load standings:", err);
+    return [];
   }
 }

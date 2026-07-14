@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
-import { getTeams } from "../lib/googleSheet";
-import { computeStandings, PLAYOFF_SPOTS } from "../data/standings";
+import { getStandings } from "../lib/googleSheet";
+
+const PLAYOFF_SPOTS = 8;
 
 export default function Standings() {
-  const [teams, setTeams] = useState([]);
+  const [standings, setStandings] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
-      setTeams(await getTeams());
+      setStandings(await getStandings());
       setLoading(false);
     }
 
     load();
   }, []);
 
-  const west = computeStandings(
-    teams.filter((team) => team.conference === "West")
+  const west = standings.filter(
+    (team) => team.conference === "Western"
   );
 
-  const east = computeStandings(
-    teams.filter((team) => team.conference === "East")
+  const east = standings.filter(
+    (team) => team.conference === "Eastern"
   );
 
   function renderConference(title, standings) {
@@ -41,20 +42,15 @@ export default function Standings() {
 
           {standings.map((team, index) => (
             <div
-              key={team.short}
+              key={team.rank}
               className={`standings-row${
                 index === PLAYOFF_SPOTS - 1 ? " standings-cutoff" : ""
               }`}
-              style={{ "--team-color": team.color }}
             >
-              <span className="rank">{index + 1}</span>
+              <span className="rank">{team.rank}</span>
 
               <div className="team">
-                <span className="crest">{team.short}</span>
-
-                <span className="label">
-                  {team.city} {team.name}
-                </span>
+                <span className="label">{team.team}</span>
               </div>
 
               <span className="cell">{team.w}</span>
@@ -86,7 +82,7 @@ export default function Standings() {
       )}
 
       {!loading && west.length === 0 && east.length === 0 && (
-        <div className="empty-state">No teams yet.</div>
+        <div className="empty-state">No standings found.</div>
       )}
     </div>
   );
