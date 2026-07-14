@@ -24,7 +24,7 @@ export function transformGames(rows) {
     .filter((r) => r.id?.trim())
     .map((r) => ({
       id: r.id.trim(),
-      date: (r.date || "").trim(),
+      week: parseInt(r.week, 10) || 0,
       home: (r.home || "").trim().toUpperCase(),
       away: (r.away || "").trim().toUpperCase(),
       homeScore: toNum(r.homeScore),
