@@ -1,4 +1,4 @@
-export const PLAYOFF_SPOTS = 4;
+export const PLAYOFF_SPOTS = 5;
 
 // Standard hockey points: 2 for a win, 1 for an OT/shootout loss.
 export function computeStandings(teams) {
