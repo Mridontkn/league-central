@@ -15,18 +15,19 @@ export default function Standings() {
     load();
   }, []);
 
-  const standings = computeStandings(teams);
+  const west = computeStandings(
+    teams.filter((team) => team.conference === "West")
+  );
 
-  return (
-    <div className="page">
-      <div className="page-head">
-        <h1>Standings</h1>
-        <p>Top {PLAYOFF_SPOTS} clubs make the playoffs</p>
-      </div>
+  const east = computeStandings(
+    teams.filter((team) => team.conference === "East")
+  );
 
-      {loading && <div className="empty-state">Loading standings…</div>}
+  function renderConference(title, standings) {
+    return (
+      <>
+        <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>{title}</h2>
 
-      {!loading && standings.length > 0 && (
         <div className="standings-table">
           <div className="standings-row head">
             <span className="rank">#</span>
@@ -40,15 +41,22 @@ export default function Standings() {
 
           {standings.map((team, index) => (
             <div
-              className={`standings-row${index === PLAYOFF_SPOTS - 1 ? " standings-cutoff" : ""}`}
               key={team.short}
+              className={`standings-row${
+                index === PLAYOFF_SPOTS - 1 ? " standings-cutoff" : ""
+              }`}
               style={{ "--team-color": team.color }}
             >
               <span className="rank">{index + 1}</span>
+
               <div className="team">
                 <span className="crest">{team.short}</span>
-                <span className="label">{team.city} {team.name}</span>
+
+                <span className="label">
+                  {team.city} {team.name}
+                </span>
               </div>
+
               <span className="cell">{team.w}</span>
               <span className="cell">{team.l}</span>
               <span className="cell">{team.otl}</span>
@@ -57,9 +65,27 @@ export default function Standings() {
             </div>
           ))}
         </div>
+      </>
+    );
+  }
+
+  return (
+    <div className="page">
+      <div className="page-head">
+        <h1>Standings</h1>
+        <p>Top {PLAYOFF_SPOTS} clubs make the playoffs</p>
+      </div>
+
+      {loading && <div className="empty-state">Loading standings…</div>}
+
+      {!loading && (
+        <>
+          {renderConference("Western Conference", west)}
+          {renderConference("Eastern Conference", east)}
+        </>
       )}
 
-      {!loading && standings.length === 0 && (
+      {!loading && west.length === 0 && east.length === 0 && (
         <div className="empty-state">No teams yet.</div>
       )}
     </div>
