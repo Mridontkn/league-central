@@ -2,23 +2,21 @@ import { useEffect, useState } from "react";
 import { getTeams, getGames } from "../lib/googleSheet";
 import Scorebug from "../components/Scorebug";
 
-function groupByDate(games) {
+function groupByWeek(games) {
   const groups = new Map();
+
   for (const game of games) {
-    if (!groups.has(game.date)) groups.set(game.date, []);
-    groups.get(game.date).push(game);
+    const week = game.week ?? 0;
+
+    if (!groups.has(week)) {
+      groups.set(week, []);
+    }
+
+    groups.get(week).push(game);
   }
-  return [...groups.entries()].sort(([a], [b]) => (a < b ? -1 : 1));
-}
 
-function formatGroupDate(date) {
-  return new Date(date + "T00:00:00").toLocaleDateString(undefined, {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
+  return [...groups.entries()].sort((a, b) => a[0] - b[0]);
 }
-
 export default function Games() {
   const [teams, setTeams] = useState([]);
   const [games, setGames] = useState([]);
@@ -35,7 +33,7 @@ export default function Games() {
     load();
   }, []);
 
-  const grouped = groupByDate(games);
+  const grouped = groupByWeek(games);
 
   return (
     <div className="page">
@@ -50,14 +48,14 @@ export default function Games() {
         <div className="empty-state">No games scheduled yet.</div>
       )}
 
-      {grouped.map(([date, dayGames]) => (
-        <section key={date}>
-          <div className="section-head">
-            <span className="eyebrow">{formatGroupDate(date)}</span>
-          </div>
+{grouped.map(([week, weekGames]) => (
+  <section key={week}>
+    <div className="section-head">
+      <span className="eyebrow">Week {week}</span>
+    </div>
 
           <div className="page" style={{ gap: "12px" }}>
-            {dayGames.map((game) => (
+            {weekGames.map((game) => (
               <Scorebug key={game.id} game={game} teams={teams} />
             ))}
           </div>
