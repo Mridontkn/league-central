@@ -68,7 +68,15 @@ export async function getNews() {
 export async function getStats() {
   try {
     const rows = await fetchSheet(SHEETS.stats);
+
+    console.log("RAW STATS ROWS:", rows);
+
+    console.log(rows[0]);
+
     const stats = transformStats(rows);
+
+    console.log("TRANSFORMED STATS:", stats);
+
     return stats.length ? stats : sampleStats;
   } catch (err) {
     console.warn("Falling back to sample stats:", err);

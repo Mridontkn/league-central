@@ -25,19 +25,16 @@ function toPct(v) {
 }
 
 export function transformStats(rows) {
-  return rows
-    .filter((r) => r.id?.trim())
-    .map((r) => ({
-      id: r.id.trim(),
-      name: (r.name || "").trim(),
-      team: (r.team || "").trim().toUpperCase(),
-      gp: toNum(r.gp),
-      g: toNum(r.g),
-      a: toNum(r.a),
-      sv: toPct(r.sv),
-    }));
+  return rows.map((r) => ({
+    id: r.id || r.name,
+    name: (r.name || "").trim(),
+    team: (r.team || "").trim(),
+    gp: toNum(r.gp),
+    g: toNum(r.g),
+    a: toNum(r.a),
+    sv: toPct(r.sv),
+  }));
 }
-
 // Formats a 0–1 save percentage the way hockey stat sheets do: ".918"
 export function formatSavePct(sv) {
   if (sv === undefined || sv === null || Number.isNaN(sv)) return "—";

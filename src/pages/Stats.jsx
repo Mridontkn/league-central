@@ -21,6 +21,7 @@ export default function Stats() {
 
   const leaders = computePlayerStats(stats);
 
+  console.log("TRANSFORMED:", stats);
   return (
     <div className="page">
       <div className="page-head">
