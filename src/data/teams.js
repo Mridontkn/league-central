@@ -22,6 +22,7 @@ export function transformTeams(rows) {
       name: (r.name || "").trim(),
       city: (r.city || "").trim(),
       color: (r.color || "").trim() || "#2fb4ff",
+      conference: (r.conference || "").trim(),
       w: toNum(r.w),
       l: toNum(r.l),
       otl: toNum(r.otl),
