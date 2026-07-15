@@ -29,24 +29,20 @@ export default function Scorebug({ game, teams, fullNames = false }) {
   const isLive = game.status === "live";
   const homeWin = isFinal && game.homeScore > game.awayScore;
 
-  const dateLabel = new Date(game.date + "T00:00:00").toLocaleDateString(
-    undefined,
-    { month: "short", day: "numeric" }
-  );
+const dateLabel = `Week ${game.week}`;
 
   return (
     <div className="scorebug">
       <div className={`scorebug-status${isLive ? " is-live" : ""}`}>
         {isLive ? (
-          <span className="live-flag">
-            <span className="dot" /> Live
-          </span>
-        ) : isFinal ? (
-          <span>Final · {dateLabel}</span>
-        ) : (
-          <span>{dateLabel}</span>
-        )}
-        {!isFinal && !isLive && game.time && <span>{game.time}</span>}
+  <span className="live-flag">
+    <span className="dot" /> Live
+  </span>
+) : isFinal ? (
+  <span>Final · Week {game.week}</span>
+) : (
+  <span>Week {game.week}</span>
+)}
       </div>
 
       <div className="scorebug-body">
