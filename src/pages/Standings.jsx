@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getStandings } from "../lib/googleSheet";
 
-const PLAYOFF_SPOTS = 8;
+const PLAYOFF_SPOTS = 5;
 
 export default function Standings() {
   const [standings, setStandings] = useState([]);
