@@ -16,14 +16,14 @@ export default function Standings() {
     load();
   }, []);
 
-  const west = standings.filter(
-    (team) => team.conference === "Western"
-  );
+const west = standings
+  .filter((team) => team.conference === "Western")
+  .slice(0, 5);
 
-  const east = standings.filter(
-    (team) => team.conference === "Eastern"
-  );
-
+const east = standings
+  .filter((team) => team.conference === "Eastern")
+  .slice(0, 5);
+  
   function renderConference(title, standings) {
     return (
       <>
