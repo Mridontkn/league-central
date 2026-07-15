@@ -39,5 +39,11 @@ export function nextGame(games) {
 }
 
 export function lastResult(games) {
-  return [...games].reverse().find((g) => g.status === "final");
+  return games
+    .filter((g) => g.status === "final")
+    .sort((a, b) => {
+      if (b.week !== a.week) return b.week - a.week;
+
+      return b.id.localeCompare(a.id);
+    })[0];
 }
